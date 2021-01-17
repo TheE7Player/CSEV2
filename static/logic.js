@@ -1,5 +1,20 @@
 console.log("logic.js is running and executed by html")
 
+function CloseMessage()
+{
+    var model = document.getElementById("update");
+
+    if (model === null) return;
+    
+    $(model).remove();
+
+}
+
+function OpenLatest()
+{
+    window.open("https://www.github.com/TheE7Player/CSEV2/releases/latest");
+    CloseMessage();
+}
 
 // Filter the select (listbox) by text but prevent it from deleting itself
 // https://stackoverflow.com/a/62896822

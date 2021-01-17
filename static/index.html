@@ -1,6 +1,8 @@
 <html>
 <head>
 
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon64x64.ico') }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='/static/style.css' /> 
     <link rel="stylesheet" href='/static/bulma.css' />
@@ -24,7 +26,7 @@
 
 </head>
 <body>
-    <div >
+    <div>
         <table style="border-collapse: collapse; width: 100%;" border="0">
             <tbody>
                 <tr>
@@ -38,6 +40,13 @@
             </tbody>
         </table>     
     </div>
+
+    {% if askUpdate == True %}
+        <div id="update" class="notification is-warning is-light">
+        <button class="delete" onclick="CloseMessage()"></button>
+        You are running an <strong>older edition</strong> of this program - a newer one exists <a onclick="OpenLatest()">here</a>.
+      </div>
+    {% endif %}
 
     <div>
         <div class="select is-multiple" style="padding: 14px;">
