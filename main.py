@@ -140,61 +140,70 @@ print("checking for updates if possible")
 updateCheck = get_reg("updateCheck")
 needsUpdating = get_reg("needsUpdate")
 
-if needsUpdating == None:
-  if not set_reg("needsUpdate", "0"):
-    needsUpdating = False
-elif needsUpdating == "1" or needsUpdating == "0":
-    needsUpdating = True if needsUpdating == "1" else False
+def main():
+  global needsUpdating, updateCheck, events, eventNames
+  if needsUpdating == None:
+    if not set_reg("needsUpdate", "0"):
+      needsUpdating = False
+  elif needsUpdating == "1" or needsUpdating == "0":
+      needsUpdating = True if needsUpdating == "1" else False
 
-if updateCheck == None:
-  if not set_reg("updateCheck", "0"):
-    updateCheck = False
-elif updateCheck == "1" or updateCheck == "0":
-    updateCheck = True if updateCheck == "1" else False
+  if updateCheck == None:
+    if not set_reg("updateCheck", "0"):
+      updateCheck = False
+  elif updateCheck == "1" or updateCheck == "0":
+      updateCheck = True if updateCheck == "1" else False
 
-if updateCheck == None:
-  if not set_reg("updateCheck", "0"):
-    updateCheck = False
-elif updateCheck == "1" or updateCheck == "0":
-    updateCheck = True if updateCheck == "1" else False
+  if updateCheck == None:
+    if not set_reg("updateCheck", "0"):
+      updateCheck = False
+  elif updateCheck == "1" or updateCheck == "0":
+      updateCheck = True if updateCheck == "1" else False
 
-nextCheck = datetime.now()
-nextCheck = f"{nextCheck.day}/{nextCheck.hour}"
+  nextCheck = datetime.now()
+  nextCheck = f"{nextCheck.day}/{nextCheck.hour}"
 
-timeCheck = get_reg("timeNextCheck")
+  timeCheck = get_reg("timeNextCheck")
 
 
-if not updateCheck or timeCheck == None or timeCheck == nextCheck or needsUpdating == False:
-  print("Now Performing URL fetch")
+  if not updateCheck or timeCheck == None or timeCheck == nextCheck or needsUpdating == True:
+    print("Now Performing URL fetch")
 
-  if get_reg("needsUpdate") == "1":
-    if not set_reg("needsUpdate", "0"): print("Failed to set REVKEY 'needsUpdate' to false")
+    if get_reg("needsUpdate") == "1":
+      if not set_reg("needsUpdate", "0"): print("Failed to set REVKEY 'needsUpdate' to false")
 
-  try:
-    url = "https://raw.githubusercontent.com/TheE7Player/CSEV2/main/version.txt"
-    r = requests.get(url, timeout=5)
+    try:
+      url = "https://raw.githubusercontent.com/TheE7Player/CSEV2/main/version.txt"
+      r = requests.get(url, timeout=5)
 
-    r = r.content.decode("utf-8")
+      r = r.content.decode("utf-8")
 
-    needsUpdating = not VersionComparer(r)
+      needsUpdating = not VersionComparer(r)
 
-    if not set_reg("updateCheck", "1"): print("Failed to set REVKEY 'updateCheck' to true")
-    if not set_reg("needsUpdate", "1"): print("Failed to set REVKEY 'needsUpdate' to true")
-    nextCheck = datetime.now() + timedelta(hours=1)
-    nextCheck = f"{nextCheck.day}/{nextCheck.hour}"
-    if not set_reg("timeNextCheck", nextCheck): print(f"Failed to set REVKEY 'timeNextCheck' to {nextCheck}")
+      if not set_reg("updateCheck", "1"): print("Failed to set REVKEY 'updateCheck' to true")
 
-  except (requests.ConnectionError, requests.Timeout) as exception:
-	  print("No internet connection.")
-else:
-  print("Update check has already been made - ignoring the update logic")
+      if needsUpdating:
+        if not set_reg("needsUpdate", "1"): print("Failed to set REVKEY 'needsUpdate' to true")
 
-print("Parsing events.yaml now")
+      nextCheck = datetime.now() + timedelta(hours=1)
+      nextCheck = f"{nextCheck.day}/{nextCheck.hour}"
+      if not set_reg("timeNextCheck", nextCheck): print(f"Failed to set REVKEY 'timeNextCheck' to {nextCheck}")
 
-import yaml
-with open('events.yaml') as f:
-    events = yaml.load(f, Loader=yaml.FullLoader)
-    eventNames = list(events.keys())
-    eventNames.sort()
+    except (requests.ConnectionError, requests.Timeout) as exception:
+      print("No internet connection.")
+  else:
+    print("Update check has already been made - ignoring the update logic")
 
-ui.run()
+  print("Parsing events.yaml now")
+
+  import yaml
+  with open('events.yaml') as f:
+      events = yaml.load(f, Loader=yaml.FullLoader)
+      eventNames = list(events.keys())
+      eventNames.sort()
+
+  ui.run()
+
+# Creating an Entry Point here
+if __name__ == '__main__':
+    main()
