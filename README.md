@@ -3,7 +3,7 @@ Counter Strike Event Viewer 2
 
 ![Screenshot of the application from 0.1](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/screenshot.png)
 
-Rewrite of the original CSEV made in Java
+Rewrite of the original CSEV made in [Java](https://github.com/TheE7Player/CSGO-Event-Viewer)
 
 Its abilities:
 - To select or view different available events that occur in `Counter-Strike: Global Offensive`
