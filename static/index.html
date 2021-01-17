@@ -1,0 +1,110 @@
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='/static/style.css' /> 
+    <link rel="stylesheet" href='/static/bulma.css' />
+
+
+    <script type="text/javascript" src="/static/logic.js"></script>
+    <script type="text/javascript" src="/static/jquery.min.js" ></script>
+
+    <title>Counter Strike Event Viewer 2</title>
+
+    <!-- 
+
+    Google Fonts: Noto Sans 
+
+    This font is now loaded locally and not externally so even if offline, the styling remains the same.
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+    -->
+
+</head>
+<body>
+    <div >
+        <table style="border-collapse: collapse; width: 100%;" border="0">
+            <tbody>
+                <tr>
+                <td style="width: 15%;">
+                    <h1 class="ignore-css" style="margin: 0px;"><b>CS:EV 2</b></h1>
+                    <h2 class="ignore-css" style="margin-top: 0px;"><i>Version {{version}}</i></h2>
+                </td>
+                <td style="width: 49.9526%;padding: 15px;"><input name="search" id="search" class="input is-rounded" onkeyup="filter()" type="text" placeholder="Enter event here"></td>
+                <td style="width: 16.714%;">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>     
+    </div>
+
+    <div>
+        <div class="select is-multiple" style="padding: 14px;">
+            <div class="columns">
+                <div class="column">
+                    <select name="select" id="select" multiple size="8" style="min-height: 529px; min-width: 367px;" onchange="location = this.value;">
+                        {% for item in eventnames %}
+                        <option value="{{ url_for('event', item_name=item) }}" {% if item == eventTitle %} selected {% endif %}>{{item}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="column" style="min-width: 820px;">
+                    <h1><b>{{eventTitle}}</b></h1>
+                    <table style="border-collapse: collapse; width: 100%;" border="0">
+                        <tbody>
+                            <td class="event {% if supportsClient == True %} eventSupport {% else %} eventNoSupport {% endif %}">Client Event</td>
+                            <td class="event {% if supportsGame == True %} eventSupport {% else %} eventNoSupport {% endif %}"">Game Event</td>
+                            <td class="event {% if supportsServer == True %} eventSupport {% else %} eventNoSupport {% endif %}"">Server Event</td>
+                        </tbody>                       
+                    </table>
+                    <div class="tabs is-centered">
+                        <!-- class="is-active" -->
+                          <ul>
+                            <li><a onclick="GotoClient()">Client Event</a></li>
+                            <li><a onclick="GotoGame()">Game Event</a></li>
+                            <li><a onclick="GotoServer()">Server Event</a></li>
+                          </ul>
+                    </div>
+                    <div class="container">
+                        <div id="default">
+                          <!-- Default Container -->
+                            {% if eventTitle == "No Event Selected" %}
+                                <p>Please select an event from the side bar</p>
+                            {% else %}
+                                <h2>Information:</h2>
+                                <h3>Does player cause the event to trigger?: {{"Yes" if supportsClient == True else "No"}}</h3>
+                                <h3>Does the game or game type cause the event to trigger?: {{"Yes" if supportsGame == True else "No"}}</h3>
+                                <h3>Does the server invoke the event to trigger?: {{"Yes" if supportsServer == True else "No"}}</h3>
+                            {% endif %}
+                        </div>
+                        <div class="is-hidden" id="client_event">
+                            {% if supportsClient == False %}
+                                <h2>Sorry this event doesn't invoke from the Player</h2>
+                            {% else %}
+                                {{table['c']}}
+                            {% endif %}
+                        </div>
+                        <div class="is-hidden" id="game_event">
+                            {% if supportsGame == False %}
+                                <h2>Sorry this event doesn't invoke from the Game Mode</h2>
+                            {% else %}
+                                {{table['g']}}
+                            {% endif %}
+                        </div>
+                        <div class="is-hidden" id="server_event">
+                            {% if supportsServer == False %}
+                                <h2>Sorry this event doesn't invoke from the Server</h2>
+                            {% else %}
+                                {{table['s']}}
+                            {% endif %}
+                        </div>
+                      </div>
+                </div>
+            </div>
+            
+          </div>
+    </div>
+</body>
+</html>

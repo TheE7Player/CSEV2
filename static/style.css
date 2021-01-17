@@ -1,0 +1,21 @@
+
+@font-face { font-family: 'Noto Sans', sans-serif !important; src: url('NotoSans-Regular.ttf'); } 
+
+body {
+    padding: 20px !important;
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 20px !important;
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,0.5228466386554622) 0%, rgba(9,112,121,0.7301295518207283) 35%, rgba(160,0,255,0.23433123249299714) 100%) !important;
+}
+
+h1.ignore-css{font-size: 2em;}
+h2.ignore-css{font-size: 1.5em;}
+
+.event{
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.eventNoSupport {color: crimson;}
+.eventSupport {color: greenyellow;}
