@@ -24,6 +24,7 @@ The project requires that you have the latest or Python version of `3.7.9`+ inst
 
 First install Python:
 https://www.python.org
+
 Or Anaconda:
 https://www.anaconda.com 
 
@@ -38,10 +39,12 @@ Once you installed either native `Python` or `Anaconda` (make sure you have the 
 | requests| 2.25.1 |
 | PyYAML| 5.3.1 |
 
-Or you can reference the text help given above from `requirements.txt` which contains the same packages from above:
+Or you can reference the text given above from `requirements.txt` which contains the same packages from above:
 
 > Make sure you have the PATH set before running this command
+>
 > If you have multiple versions installed, you need to find the pip.exe directly
+>
 > Change the `requirements.txt` to the correct pathing where you saved it
 
 ```
@@ -65,7 +68,7 @@ If your are not in the same directory when calling `python`, you need to use `fu
 > Replace the current path stated below with where you saved the `main.py file`
 
 ```
-python C:\users\JohnSmith\python\CSEV2\main.py
+python C:\Users\JohnSmith\python\CSEV2\main.py
 ```
 
 ## Step 3: Sit back and relax
