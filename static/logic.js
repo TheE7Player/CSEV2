@@ -16,6 +16,24 @@ function OpenLatest()
     CloseMessage();
 }
 
+function ToggleLanguage()
+{
+    var shown = document.getElementById('dropdown-menu2').style.visibility;
+
+    shown = (shown === "hidden") ? "visible" : "hidden";
+
+    document.getElementById('dropdown-menu2').style.visibility = shown;
+
+}
+
+function ChangeLanguage(elm)
+{
+    // Get the current url
+    let currentUrl = window.location;
+
+    window.location = `/change/${elm.id}/0`;
+}
+
 // Filter the select (listbox) by text but prevent it from deleting itself
 // https://stackoverflow.com/a/62896822
 function filter() {

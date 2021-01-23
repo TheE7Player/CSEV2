@@ -1,8 +1,10 @@
 # Python 3.7.9
 
-from flask import Flask, render_template, Markup
+from flask import Flask, render_template, Markup, request, make_response
 from flaskwebgui import FlaskUI #get the FlaskUI class
 from datetime import datetime, timezone, timedelta
+
+from languages import GetLanguage, IfValidSupport, GetSupportedList
 
 # For URL request to fetch the url containing the current version
 import requests
@@ -13,8 +15,9 @@ import winreg
 app = Flask(__name__, template_folder='static')
 
 # Constant variables (In Uppercaps)
-VERSION = '0.1'
+VERSION = '0.2'
 REG_PATH = r"SOFTWARE\CSEV2\DATA"
+DEFAULT_LANGUAGE = "ENG"
 
 # Feed it the flask app instance 
 ui = FlaskUI(app)
@@ -24,6 +27,9 @@ ui.app_mode = True
 
 events = []
 eventNames = []
+
+language = []
+selectLanguage = GetSupportedList()
 
 # https://stackoverflow.com/a/23624136
 def set_reg(name, value):
@@ -106,7 +112,7 @@ def event(item_name):
         tableResponce['s'] = CreateTable(target['attributes' if onlyOneEvent else 'attributes_s'])
 
   return render_template('index.html', 
-  version=VERSION, 
+  version=VERSION, lang=language, availableLanguages=selectLanguage,
   eventnames=eventNames, 
   eventTitle=item_name,
   supportsGame=mod, supportsClient=cli, supportsServer=svr, table=tableResponce)
@@ -114,11 +120,56 @@ def event(item_name):
 @app.route("/")
 def index():
   return render_template('index.html', 
-  version=VERSION, 
+  version=VERSION, lang=language, availableLanguages=selectLanguage,
   eventnames=eventNames, 
-  eventTitle="No Event Selected",
+  eventTitle=language['NoEvent'],
   supportsGame=False, supportsClient=False, supportsServer=False,
   askUpdate=needsUpdating)
+
+@app.route("/change/<string:lang>/<int:toChange>/")
+def change(lang, toChange):
+  global language
+  
+  print("Attempting to change to shorthand language: ", lang)
+
+  returnLanguage = None
+
+  if toChange == 1:
+    print("pretend to change lang")
+
+    language = GetLanguage(lang)
+    if not set_reg("defaultLanguage", lang):
+      print("Failed to store as new language")
+
+    return render_template('index.html', 
+    version=VERSION, lang=language, availableLanguages=selectLanguage,
+    eventnames=eventNames, 
+    eventTitle=language['NoEvent'],
+    supportsGame=False, supportsClient=False, supportsServer=False,
+    askUpdate=needsUpdating)
+
+  if IfValidSupport(lang):
+    returnLanguage = GetLanguage(lang)
+  else:
+
+    print("[?] Language lookup failed - now attempt to recover if possible [?]")
+
+    try:
+      supportList =  GetSupportedList()
+
+      for l in supportList.keys():
+        if l[:3].upper() == lang:
+          returnLanguage = GetLanguage(supportList[l])
+          break
+
+      if returnLanguage == None:
+        raise Exception()
+
+    except:
+      print("[!] FAILED TO SUPPORT SELECTED LANGUAGE - DISPLAYING ERROR PAGE INSTEAD [!]")
+    
+
+  return render_template('change.html', normalLang=language, lang=returnLanguage)
 
 def VersionComparer(version):
   current = VERSION.split('.')
@@ -141,7 +192,7 @@ updateCheck = get_reg("updateCheck")
 needsUpdating = get_reg("needsUpdate")
 
 def main():
-  global needsUpdating, updateCheck, events, eventNames
+  global needsUpdating, updateCheck, events, eventNames, language, DEFAULT_LANGUAGE
   if needsUpdating == None:
     if not set_reg("needsUpdate", "0"):
       needsUpdating = False
@@ -165,6 +216,21 @@ def main():
 
   timeCheck = get_reg("timeNextCheck")
 
+  # Check if language has been set (if any) - Default to english (ENG)
+
+  targetLanguage = get_reg("defaultLanguage")
+
+  if targetLanguage == None:
+    set_reg("defaultLanguage", DEFAULT_LANGUAGE)
+    print("Setting default language key to ENGLISH")
+  else:
+    if not targetLanguage == DEFAULT_LANGUAGE:
+      print("DEFAULT LANUAGE IS CHANGED TO: ", targetLanguage)
+
+      if not IfValidSupport(targetLanguage):
+        print("[!] LANGUAGE", targetLanguage, "isn't supported or spelt wrong! Defaulting into English [!]")
+      else:
+        DEFAULT_LANGUAGE = targetLanguage
 
   if not updateCheck or timeCheck == None or timeCheck == nextCheck or needsUpdating == True:
     print("Now Performing URL fetch")
@@ -201,6 +267,8 @@ def main():
       events = yaml.load(f, Loader=yaml.FullLoader)
       eventNames = list(events.keys())
       eventNames.sort()
+
+  language = GetLanguage(DEFAULT_LANGUAGE)
 
   ui.run()
 

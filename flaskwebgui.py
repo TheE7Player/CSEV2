@@ -198,7 +198,7 @@ class FlaskUI:
             else:
                 launch_options = ["--window-size={},{}".format(self.width, self.height)]
 
-            options = [self.browser_path, "--new-window", '--app={}'.format(self.localhost)]
+            options = [self.browser_path, "--incognito", "--new-window", '--app={}'.format(self.localhost)]
             options.extend(launch_options)
 
             log.debug(f"Opening chrome browser with: {options}")

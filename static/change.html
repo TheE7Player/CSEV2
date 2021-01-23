@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon64x64.ico') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='/static/style.css' /> 
+    <link rel="stylesheet" href='/static/bulma.css' />
+
+
+    <script type="text/javascript" src="/static/logic.js"></script>
+    <script type="text/javascript" src="/static/jquery.min.js" ></script>
+
+    <title>Counter Strike Event Viewer 2</title>
+</head>
+
+<body>
+
+    {% if lang == None %}
+        <h2 class="title">{{normalLang['ChangeError']}}</h2>
+        <br>
+        <a href="{{url_for('index')}}" class='button is-info'>{{normalLang['ChangeErrorSubtext']}}</a>
+    {% else %}
+        <h2>Change to {{lang['Title']}}</h2>
+        <br>
+        <p>{{lang['LanguageDemo']}}</p>
+        <br>
+        <a href="{{url_for('change', lang=lang['Shorthand'], toChange=1)}}" class='button is-success'>{{lang['HintYes']}}</a>
+        <a href="{{url_for('index')}}" class='button is-danger'>{{lang['HintNo']}}</a>
+    {% endif %}
+   
+</body>
+
+</html>
