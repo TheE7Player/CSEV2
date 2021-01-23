@@ -18,6 +18,7 @@ function OpenLatest()
 
 function ToggleLanguage()
 {
+    // Get the available languages
     var shown = document.getElementById('dropdown-menu2').style.visibility;
 
     shown = (shown === "hidden") ? "visible" : "hidden";
