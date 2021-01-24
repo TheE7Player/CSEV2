@@ -44,8 +44,10 @@ Once you installed either native `Python` or `Anaconda` (make sure you have the 
 |Package Name|Package Version  |
 |--|--|
 | Flask | 1.1.2 |
+| flaskwebgui| 0.1.13 |
 | requests| 2.25.1 |
 | PyYAML| 5.3.1 |
+| psutil| 5.8.0 |
 
 Or you can reference the text given above from `requirements.txt` which contains the same packages from above:
 
