@@ -15,7 +15,7 @@ import winreg
 app = Flask(__name__, template_folder='static')
 
 # Constant variables (In Uppercaps)
-VERSION = '0.2'
+VERSION = '0.3'
 REG_PATH = r"SOFTWARE\CSEV2\DATA"
 DEFAULT_LANGUAGE = "ENG"
 APPLICATION_LOADED = False
