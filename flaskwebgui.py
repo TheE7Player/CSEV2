@@ -249,4 +249,4 @@ class FlaskUI:
             import psutil
             psutil.Process(os.getpid()).kill()
         except:
-            os.kill(os.getpid(), signal.SIGSTOP) 
+            os.kill(os.getpid(), signal.SIGTERM) 

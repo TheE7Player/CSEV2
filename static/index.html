@@ -4,6 +4,10 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='icon64x64.ico') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Prevent google translate for translating site -->
+    <meta name="google" content="notranslate">
+
     <link rel="stylesheet" href='/static/style.css' /> 
     <link rel="stylesheet" href='/static/bulma.css' />
     <link defer rel="stylesheet" href="/static/css/all.css" > <!--load all styles -->
@@ -23,9 +27,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 
     -->
-
 </head>
-<body>
+<body >
+
     <div>
         <table style="border-collapse: collapse; width: 100%;" border="0">
             <tbody>
@@ -34,7 +38,7 @@
                     <h1 class="ignore-css" style="margin: 0px;"><b>CS:EV 2</b></h1>
                     <h2 class="ignore-css" style="margin-top: 0px;"><i>{{lang['Version']}} {{version}}</i></h2>
                 </td>
-                <td style="width: 49.9526%;padding: 15px;"><input name="search" id="search" class="input is-rounded" onkeyup="filter()" type="text" placeholder="{{lang['SearchPlaceHolder']}}"></td>
+                <td style="width: 49.9526%;padding: 15px;"><input name="search" id="search" class="input is-rounded" onkeyup="filter()" type="text" placeholder="{{lang['SearchPlaceHolder']}}" autocomplete="off"></td>
                 <td style="width: 16.714%;padding: 15px;">
                     <div class="dropdown is-active">
                         <div class="dropdown-trigger">

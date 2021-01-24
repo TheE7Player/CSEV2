@@ -12,13 +12,37 @@ function CloseMessage()
 
 function OpenLatest()
 {
-    window.open("https://www.github.com/TheE7Player/CSEV2/releases/latest");
+    // https://api.github.com/repos/TheE7Player/CSEV2/releases -> assets
+    // https://stackoverflow.com/a/35970894
+    var getJSON = function(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+          var status = xhr.status;
+          if (status === 200) {
+            callback(null, xhr.response);
+          } else {
+            callback(status, xhr.response);
+          }
+        };
+        xhr.send();
+    };
+
+    getJSON('https://api.github.com/repos/TheE7Player/CSEV2/releases',
+        function(err, data) {
+        if (err !== null) {
+            alert('Something went wrong: ' + err);
+        } else {
+            window.open(data[0].html_url);
+        }
+    });
+    
     CloseMessage();
 }
 
 function ToggleLanguage()
 {
-    // Get the available languages
     var shown = document.getElementById('dropdown-menu2').style.visibility;
 
     shown = (shown === "hidden") ? "visible" : "hidden";
@@ -45,7 +69,7 @@ function filter() {
 
     for (var i = 0; i < select.length; i++) {
         var txt = select.options[i].text;
-        if (!txt.startsWith(keyword)) {
+        if (!txt.includes(keyword)) {
             $(select.options[i]).attr('disabled', 'disabled').hide();
         } else {
             $(select.options[i]).removeAttr('disabled').show();

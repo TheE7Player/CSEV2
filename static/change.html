@@ -4,6 +4,10 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='icon64x64.ico') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Prevent google translate for translating site -->
+    <meta name="google" content="notranslate">
+
     <link rel="stylesheet" href='/static/style.css' /> 
     <link rel="stylesheet" href='/static/bulma.css' />
 
@@ -14,7 +18,7 @@
     <title>Counter Strike Event Viewer 2</title>
 </head>
 
-<body>
+<body onbeforeunload="RequestShutdown()">
 
     {% if lang == None %}
         <h2 class="title">{{normalLang['ChangeError']}}</h2>

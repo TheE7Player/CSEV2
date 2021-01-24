@@ -4,7 +4,7 @@
 
 def IfValidSupport(lang: str) -> bool:
 
-    supportedLanguages = ["ENG", "ESP", "POL", "RUS"]
+    supportedLanguages = ["ENG", "ESP", "POL", "RUS", "POR"]
 
     return True if lang in supportedLanguages else False
 
@@ -14,7 +14,8 @@ def GetSupportedList():
             'English': 'ENG', 
             'Español': 'ESP',
             'Русский': 'RUS',
-            'Polski': 'POL'
+            'Polski': 'POL',
+            'Português': 'POR'
            }
 
 def GetLanguage(lang: str):
@@ -60,7 +61,14 @@ def GetLanguage(lang: str):
         "GameHint": "Does the game or game type cause the event to trigger?",
         "ServerHint": "Does the server invoke the event to trigger?",
 
-        "LanguageDemo": "Are you able to read this text perfectly fine? If so press Yes or press No to revert"
+        "LanguageDemo": "Are you able to read this text perfectly fine? If so press Yes or press No to revert",
+
+        "NoArgumentsTitle": "This event is just an empty invoker",
+        "NoArgumentsText": "That means that this event doesn't pass or carry any information - It just invokes the event argumentless.",
+        "ArgumentID": "Param Order",
+        "ArgumentName": "Param Name",
+        "ArgumentType": "Param Type",
+        "ArgumentComment": "Param Comment"
     }
 
     # Spanish Translation ~ Thank you Vulc4n#9999 (302235332391206914)
@@ -82,9 +90,9 @@ def GetLanguage(lang: str):
         'SearchPlaceHolder': "Busca un evento aquí",
 
         'Game':"Evento del Juego", "Cliente":"Evento del Cliente", "Servidor":"Evento del Servidor",
-        'NotClient': "Lo sentimos, este evento no es implementado desde el Jugador",
-        'NotGame': "Lo sentimos, este evento no es implementado desde el Modo de Juego",
-        'NotServer':"Lo sentimos, este evento no es implementado desde el Servidor",
+        'NotClient': "Lo sentimos, este evento no es invocado desde el Jugador",
+        'NotGame': "Lo sentimos, este evento no es invocado desde el Modo de Juego",
+        'NotServer':"Lo sentimos, este evento no es invocado desde el Servidor",
 
         "InformationHeader": "Información:",
 
@@ -94,7 +102,13 @@ def GetLanguage(lang: str):
         "GameHint": "¿El juego o modo de juego provocan este evento?",
         "ServerHint": "¿El servidor provoca este evento?",
 
-        "LanguageDemo": "¿Puedes leer este texto sin problemas? Si puedes, presiona SI, en caso no puedas, presiona NO para cancelar"
+        "LanguageDemo": "¿Puedes leer este texto sin problemas? Si puedes, presiona SI, en caso no puedas, presiona NO para cancelar",
+        "NoArgumentsTitle": "Este evento es solo un invocador vacío",
+        "NoArgumentsText": "Esto significa que este evento no puede ni almacenar ni pasar ninguna información - Tan solo invoca un evento sin argumentos.",
+        "ArgumentID": "Orden del Parámetro",
+        "ArgumentName": "Nombre del Parámetro",
+        "ArgumentType": "Tipodel Parámetro",
+        "ArgumentComment": "Comentario acerca del Parámetro"
     }
 
     # Polish Translation  ~ Thank you Helosx#1288 (378965373682188288)
@@ -128,7 +142,13 @@ def GetLanguage(lang: str):
         "GameHint": "Czy gra wywołuje to zdarzenie?",
         "ServerHint": "Czy serwer wywołuje to zdarzenie?",
 
-        "LanguageDemo": "Jesteś w stanie przeczytać ten tekst? Naciśnij Tak aby potwierdzić lub Nie aby cofnąć"
+        "LanguageDemo": "Jesteś w stanie przeczytać ten tekst? Naciśnij Tak aby potwierdzić lub Nie aby cofnąć",
+        "NoArgumentsTitle": "To zdarzenie jest pustym wywoływaczem",
+        "NoArgumentsText": "Oznacza to, że zdarzenie nie przekazuje ani nie przechowuje żadnych informacji - poprostu wywołuje zdarzenie bez żadnych argumentów",
+        "ArgumentID": "Kolejność",
+        "ArgumentName": "Nazwa Parametru",
+        "ArgumentType": "Typ Parametru",
+        "ArgumentComment": "Komentarz"
     }
 
     # Russian Translation ~ Thank you DMax#3317   (443364273243160577)
@@ -162,8 +182,57 @@ def GetLanguage(lang: str):
         "GameHint": "Вызывает ли игра это событие?",
         "ServerHint": "Вызывает ли сервер это событие?",
 
-        "LanguageDemo": "Можете ли Вы прочитать этот текст? Если можете, нажмите Да. В противном случае нажмите нет"
+        "LanguageDemo": "Можете ли Вы прочитать этот текст? Если можете, нажмите Да. В противном случае нажмите нет",
+        "NoArgumentsTitle": "Это пустое событие",
+        "NoArgumentsText": "Это значит, что событие не содержит никакой информации. Оно вызывается без аргументов.",
+        "ArgumentID": "Номер аргумента",
+        "ArgumentName": "Имя аргумента",
+        "ArgumentType": "Тип аргумента",
+        "ArgumentComment": "Описание аргумента"
     }
+
+    # Portuguese Translation ~ Thank you Gela-1511#9299 (244159872004915201)
+    LANG['POR'] = {
+
+        'Title': "Português",
+        "Shorthand": "POR",
+        'ChangeError': "Ocorreu um erro ao trocar de idioma",
+        'ChangeErrorSubtext': "Retroceder",
+        'Version': 'Versão',
+        'NoEvent': 'Nenhum evento selecionado',
+        'EventSubText':"Por favor seleciona um evento da lista",
+
+        'UpdateMessageA': "Estás a usar uma",
+        'UpdateMessageB': "versão anterior",
+        'UpdateMessageC': "deste programa - existe uma nova",
+        'UpdateMessageD': "aqui",
+
+        'SearchPlaceHolder': "Insira o evento aqui",
+
+        'Game':"Evento de Jogo", "Client":"Evento de Cliente", "Server":"Evento de Servidor",
+        'NotClient': "O evento em questão não é chamado pelo Jogador",
+        'NotGame': "O evento em questão não é chamado pelo Modo de Jogo",
+        'NotServer':"O evento em questão não é chamado pelo Servidor",
+
+        "InformationHeader": "Informação:",
+
+        "HintYes": "Sim", "HintNo": "Não",
+
+        "PlayerHint": "O jogador invoca o evento?",
+        "GameHint": "O jogo ou o modo de jogo invoca o evento?",
+        "ServerHint": "O servidor invoca o evento?",
+
+        "LanguageDemo": "És capaz de ler este texto perfeitamente? Se sim, pressiona Sim, senão pressiona Não para reverter",
+
+        "NoArgumentsTitle": "Este evento é um invocador vazio",
+        "NoArgumentsText": "Este evento não passa nem possui qualquer tipo de informação - Só é possível ser invocado.",
+        "ArgumentID": "Ordem do Parâmetro",
+        "ArgumentName": "Nome do Parâmetro",
+        "ArgumentType": "Tipo de Parâmetro",
+        "ArgumentComment": "Comentário do Parâmetro"
+    }
+
+
     result = None
 
     try:

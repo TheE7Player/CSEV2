@@ -18,9 +18,11 @@ app = Flask(__name__, template_folder='static')
 VERSION = '0.2'
 REG_PATH = r"SOFTWARE\CSEV2\DATA"
 DEFAULT_LANGUAGE = "ENG"
+APPLICATION_LOADED = False
 
 # Feed it the flask app instance 
 ui = FlaskUI(app)
+
 ui.height = 720
 ui.width = 1280
 ui.app_mode = True
@@ -30,6 +32,8 @@ eventNames = []
 
 language = []
 selectLanguage = GetSupportedList()
+
+
 
 # https://stackoverflow.com/a/23624136
 def set_reg(name, value):
@@ -58,13 +62,13 @@ def CreateTable(data):
   paramNum = 1
 
   if len(data) == 0:
-    table.append("<h1 class=\"title\">This event is just an empty invoker</h1>")
-    table.append("<br><p>That means that this event doesn't pass or carry any information - It just invokes the event argumentless.</p>")
+    table.append(f"<h1 class=\"title\">{language['NoArgumentsTitle']}</h1>")
+    table.append(f"<br><p>{language['NoArgumentsText']}</p>")
   else: 
 
     table.append('<table class="table" style="width=inherit;">')
 
-    table.append('<thead><tr><td>Param Order</td><td>Param Name</td><td>Param Type</td><td>Param Comment</td></tr></thead>')
+    table.append(f'<thead><tr><td>{language["ArgumentID"]}</td><td>{language["ArgumentName"]}</td><td>{language["ArgumentType"]}</td><td>{language["ArgumentComment"]}</td></tr></thead>')
 
     table.append('<tbody>')
 
@@ -119,6 +123,11 @@ def event(item_name):
 
 @app.route("/")
 def index():
+  global APPLICATION_LOADED
+
+  if not APPLICATION_LOADED:
+    APPLICATION_LOADED = True
+
   return render_template('index.html', 
   version=VERSION, lang=language, availableLanguages=selectLanguage,
   eventnames=eventNames, 
@@ -255,7 +264,7 @@ def main():
       nextCheck = f"{nextCheck.day}/{nextCheck.hour}"
       if not set_reg("timeNextCheck", nextCheck): print(f"Failed to set REVKEY 'timeNextCheck' to {nextCheck}")
 
-    except (requests.ConnectionError, requests.Timeout) as exception:
+    except (requests.ConnectionError, requests.Timeout):
       print("No internet connection.")
   else:
     print("Update check has already been made - ignoring the update logic")
@@ -269,9 +278,63 @@ def main():
       eventNames.sort()
 
   language = GetLanguage(DEFAULT_LANGUAGE)
-
+  
   ui.run()
+  
+import psutil # Used to cycle through the processes
+import threading # Used to create threads (IMPORTANT)
+import time # Used along side of events (Allows the thread sleep)
+import os
+import signal # Used to exit the script completly
+
+def SearchThread():
+  global APPLICATION_LOADED
+
+  foundChrome = False
+  chromeID = 0
+
+  windowOpen = True
+
+  target = "chrome"
+  argu = "--incognito"
+
+  while not APPLICATION_LOADED:
+    time.sleep(2)
+
+  print("Waiting thread is now searching...")
+  while True:
+    if not foundChrome:
+      for process in psutil.process_iter():
+          if target in process.name():         
+            if argu in process.cmdline():
+              print("Found the window to test for:", process.pid)
+              foundChrome = True
+              chromeID = process.pid
+    else:
+      windowOpen = False
+      for process in psutil.process_iter():
+          if target in process.name():         
+            if argu in process.cmdline():
+              windowOpen = True
+
+      if not windowOpen:
+        print("Cannot find window - assuming its closed. Shuting down server.")
+        break
+    time.sleep(2)
+
 
 # Creating an Entry Point here
 if __name__ == '__main__':
-    main()
+
+    uiThread = threading.Thread(target=main)
+    uiThread.daemon = True  
+    uiThread.start()
+
+    searchThread = threading.Thread(target=SearchThread)
+    searchThread.daemon = True  
+    searchThread.start()
+
+    searchThread.join()
+
+print("EXITING")
+os.kill(os.getpid(), signal.SIGTERM)
