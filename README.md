@@ -1,7 +1,15 @@
+
 # CSEV2
 Counter Strike Event Viewer 2
 
-![Screenshot of the application from 0.1](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/screenshot.png)
+> This project as of now is only supported in Windows.
+> A Linux and Mac OS version will be made soon - or help by contributing to the project
+
+![Screenshot of the application from 0.2](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/screenshot.png)
+
+> Now with support for many languages - By the community
+
+![Screenshot of the languages available with the application from 0.2](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/supportedLanguages.png)
 
 Rewrite of the original CSEV made in [Java](https://github.com/TheE7Player/CSGO-Event-Viewer)
 
