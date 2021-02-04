@@ -7,36 +7,56 @@ function CloseMessage()
     if (model === null) return;
     
     $(model).remove();
+}
 
+// Used to get typed in filter -> To keep track of what was typed in
+function FetchSession()
+{
+    // Textbox -> search
+    // Session Key to look for: "searchKey"
+    // "searchKey" contains the text input that was used
+    console.log("Fetching Session from Client-End")
+
+    var inputText = document.getElementById('search').value;
+    var word = sessionStorage.getItem("searchKey");
+
+    if(word === null)
+    {
+        console.log("Ignoring session log for input text")
+        return;
+    }
+    else
+    {
+        document.getElementById('search').value = word;
+        
+        // Run the filter as if we had typed it in (to get the other events filtered out)
+        filter()
+    }
+}
+
+function SetInputSession()
+{
+    // Session Key to look for: "searchKey"
+    // "searchKey" contains the text input that was used
+    var inputText = document.getElementById('search').value;
+   
+    if ( inputText.length < 1 )
+        sessionStorage.removeItem("searchKey");
+    else
+        sessionStorage.setItem("searchKey", inputText);
 }
 
 function OpenLatest()
 {
-    // https://api.github.com/repos/TheE7Player/CSEV2/releases -> assets
-    // https://stackoverflow.com/a/35970894
-    var getJSON = function(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'json';
-        xhr.onload = function() {
-          var status = xhr.status;
-          if (status === 200) {
-            callback(null, xhr.response);
-          } else {
-            callback(status, xhr.response);
-          }
-        };
-        xhr.send();
-    };
+    let ver = document.getElementById('updateversion').dataset.version;
 
-    getJSON('https://api.github.com/repos/TheE7Player/CSEV2/releases',
-        function(err, data) {
-        if (err !== null) {
-            alert('Something went wrong: ' + err);
-        } else {
-            window.open(data[0].html_url);
-        }
-    });
+    if(ver === "None")
+    {
+        console.log("Update tag was left empty - ignoring")
+        return;
+    }
+
+    window.open('https://github.com/TheE7Player/CSEV2/releases/tag/' + ver);
     
     CloseMessage();
 }
@@ -48,7 +68,6 @@ function ToggleLanguage()
     shown = (shown === "hidden") ? "visible" : "hidden";
 
     document.getElementById('dropdown-menu2').style.visibility = shown;
-
 }
 
 function ChangeLanguage(elm)
@@ -65,16 +84,32 @@ function filter() {
     var keyword = document.getElementById("search").value;
     var select = document.getElementById("select");
 
+    var startsWithSearch = false;
+
+    if(keyword.length > 0)
+        if(keyword[0] == "=")
+            startsWithSearch = true;
+
     if (select === null) return;
 
     for (var i = 0; i < select.length; i++) {
+        
         var txt = select.options[i].text;
-        if (!txt.includes(keyword)) {
-            $(select.options[i]).attr('disabled', 'disabled').hide();
-        } else {
+        
+        $(select.options[i]).attr('disabled', 'disabled').hide();
+             
+        if (startsWithSearch)
+        {
+            if(txt.startsWith(keyword.substring(1)))
             $(select.options[i]).removeAttr('disabled').show();
-        }
+        } 
+        else if (txt.includes(keyword)) {
+            $(select.options[i]).removeAttr('disabled').show();
+        } 
     }
+
+    // Set a session key to keep track of the input
+    SetInputSession()
 }
 
 // https://stackoverflow.com/a/45010416
