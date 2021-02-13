@@ -31,7 +31,7 @@ This application uses little `Jquery` and `JS` to allow functionality to flow
 
 > Update 0.4.1+ brings a new `python environment` while also having a `launcher` made in `C++` for `Windows` only at this time.
 >
-> Please check the `Wiki` to see how to setup the environment
+> Please check the [Wiki](https://github.com/TheE7Player/CSEV2/wiki) to see how to setup the environment
 
 The project requires that you have the latest or Python version of `3.7.9`+ installed either natively or using an environment such as `Anaconda`
 
