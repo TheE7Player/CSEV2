@@ -114,8 +114,37 @@ def DoUpdate():
 
   print("Parsing events.yaml now")
 
-  import yaml
-  with open('events.yaml') as f:
+  import yaml, os, sys
+
+  eventPath = 'events.yaml'
+
+  if not os.path.isfile(eventPath):
+    print("[WARNING] Noticed you didnt run it from a suitable location - thats okay, I'll fix it (I hope)")
+    
+    # Grab the path location and check on it
+    currentPath = sys.argv[0].split('\\')
+    
+    # Then we flip the list around so the script is the first element
+    currentPath.reverse()
+
+    print(currentPath)
+
+    # Then we modify that element and get rid of the '/' and script name ( if any )
+
+    if '/' in currentPath[0]:
+      currentPath[0] = currentPath[0][:currentPath[0].index('/')]
+    else:
+      currentPath.pop(0)
+
+    # Flip again to get the correct pathing
+    currentPath.reverse()
+
+    # We finally now have our correct path to look for - lets join it up then free the list from memory
+    newpath = '\\'.join(currentPath)
+    eventPath = f"{newpath}\\{eventPath}"
+
+
+  with open(eventPath) as f:
       events = yaml.load(f, Loader=yaml.FullLoader)
       eventNames = list(events.keys())
       eventNames.sort()
