@@ -44,7 +44,7 @@ https://www.anaconda.com
 ## Step 1: Installation of the Packages
 Once you installed either native `Python` or `Anaconda` (make sure you have the PATH set) you need to install the following:
 
-> The Packages listed here are accurate as of version 0.1
+> The Packages listed here are accurate as of version 0.5
 
 |Package Name|Package Version  |
 |--|--|
