@@ -10,9 +10,11 @@ from datetime import datetime
 temp_dir = tempfile.TemporaryDirectory()
 keepalive_file = os.path.join(temp_dir.name, 'bo.txt')
 
-server_log = logging.getLogger('BaseHTTPRequestHandler')
-log = logging.getLogger('flaskwebgui')
+# server_log = logging.getLogger('BaseHTTPRequestHandler')
+# log = logging.getLogger('flaskwebgui')
 
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 class S(BaseHTTPRequestHandler):
 
@@ -21,7 +23,8 @@ class S(BaseHTTPRequestHandler):
             Overrides logging in server.py so it doesn't spit out get requests to stdout.
             This allows the caller to filter out what appears on the console.
         """
-        server_log.debug(f"{self.address_string()} - {format_str % args}")
+        #server_log.debug(f"{self.address_string()} - {format_str % args}")
+        pass
 
     def _set_response(self):
         self.send_response(200)
@@ -30,7 +33,7 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_response()
-        self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
+        # self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
         with open(keepalive_file, "w") as f:
             f.write(f"{datetime.now()}")
         

@@ -1,14 +1,21 @@
 # Python 3.7.9
-# Python Linux 3.8.0
 
 # https://stackoverflow.com/a/60441931
 
 from flask import Flask, render_template
 from flaskwebgui import FlaskUI #get the FlaskUI class
 import utils.config as cfg
+import sys
 
 app = Flask(__name__, template_folder='static')
+
+# Disable the logger (faster)
+app.logger.disabled = True
+
 ui = None
+
+cli = sys.modules['flask.cli']
+cli.show_server_banner = lambda *x: None
 
 # call the 'run' method
 print("PRESS CTRL+SHIFT+R IF CONTENT DOESN'T LOAD AFTER BUILD")
