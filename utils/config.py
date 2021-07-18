@@ -7,7 +7,7 @@ from .reg import get_reg, set_reg
 import requests
 
 # Constant variables (In Uppercaps)
-VERSION = '0.5'
+VERSION = '0.6'
 APPLICATION_LOADED = False
 WIDTH = 1280
 HEIGHT = 720
