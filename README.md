@@ -5,7 +5,7 @@ Counter Strike Event Viewer 2
 > This project as of now is only supported in Windows.
 > A Linux and Mac OS version will be made soon - or help by contributing to the project
 
-![Screenshot of the application from 0.2](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/screenshot.png)
+![Screenshot of the application from 0.6.1](https://github.com/TheE7Player/CSEV2/blob/main/screenshot_0.6.png?raw=true)
 
 > Now with support for many languages - By the community
 
@@ -44,14 +44,14 @@ https://www.anaconda.com
 ## Step 1: Installation of the Packages
 Once you installed either native `Python` or `Anaconda` (make sure you have the PATH set) you need to install the following:
 
-> The Packages listed here are accurate as of version 0.5
+> The Packages listed here are accurate as of version 0.6.1+
 
 |Package Name|Package Version  |
 |--|--|
-| Flask | 1.1.2 |
-| flaskwebgui| 0.1.13 |
-| requests| 2.25.1 |
-| PyYAML| 5.3.1 |
+| Flask | 2.0.2 |
+| flaskwebgui| 0.3.3 |
+| requests| 2.26.0 |
+| PyYAML| 6.0 |
 | psutil| 5.8.0 |
 
 Or you can reference the text given above from `requirements.txt` which contains the same packages from above:
@@ -66,10 +66,10 @@ Or you can reference the text given above from `requirements.txt` which contains
 pip install -r requirements.txt
 ```
 or if stated above, you need to install it into another version of `Python`:
-> Assume your python is in the C drive and you need to install it into version `3.7.9`
+> Assume your python is in the C drive and you need to install it into version `3.9`
 
 ```
-C:\Python37\python.exe -m pip install -r requirements.txt
+C:\Python39\python.exe -m pip install -r requirements.txt
 ```
 ## Step 2: Running the application
 Once you got all the dependencies required to run the application, select the python version you installed the dependencies above from and call the `main.py` file after `python`:
@@ -93,4 +93,5 @@ You can now use the application to find the events you need or have to remind yo
 
 Its better to setup a `.bat` file to save you for typing the command each time to load the script - but that's up you now wise one!
 
-![Screenshot of the application from 0.1](https://raw.githubusercontent.com/TheE7Player/CSEV2/main/screenshot.png)
+![Screenshot of the application from 0.6.1](https://github.com/TheE7Player/CSEV2/blob/main/screenshot_0.6.png?raw=true)
+
