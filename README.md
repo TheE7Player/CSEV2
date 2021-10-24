@@ -33,7 +33,7 @@ This application uses little `Jquery` and `JS` to allow functionality to flow
 >
 > Please check the [Wiki](https://github.com/TheE7Player/CSEV2/wiki) to see how to setup the environment
 
-The project requires that you have the latest or Python version of `3.7.9`+ installed either natively or using an environment such as `Anaconda`
+The project requires that you have the latest or Python version of `3.9`+ installed either natively or using an environment such as `Anaconda`
 
 First install Python:
 https://www.python.org
