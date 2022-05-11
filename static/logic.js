@@ -2,11 +2,7 @@ console.log("logic.js is running and executed by html")
 
 function CloseMessage()
 {
-    var model = document.getElementById("update");
-
-    if (model === null) return;
-    
-    $(model).remove();
+    $("#update")?.remove();
 }
 
 // Used to get typed in filter -> To keep track of what was typed in
@@ -17,7 +13,7 @@ function FetchSession()
     // "searchKey" contains the text input that was used
     console.log("Fetching Session from Client-End")
 
-    var inputText = document.getElementById('search').value;
+    const inputText = $('#search').val();
     var word = sessionStorage.getItem("searchKey");
 
     if(word === null)
@@ -27,7 +23,7 @@ function FetchSession()
     }
     else
     {
-        document.getElementById('search').value = word;
+        $('#search').val(word);
         
         // Run the filter as if we had typed it in (to get the other events filtered out)
         filter()
@@ -38,17 +34,17 @@ function SetInputSession()
 {
     // Session Key to look for: "searchKey"
     // "searchKey" contains the text input that was used
-    var inputText = document.getElementById('search').value;
-   
-    if ( inputText.length < 1 )
-        sessionStorage.removeItem("searchKey");
-    else
-        sessionStorage.setItem("searchKey", inputText);
+    const inputText = $('#search').val();
+    const targetKey = "searchKey"
+
+    if ( inputText.length < 1 ) { sessionStorage.removeItem(targetKey); return; }
+
+    sessionStorage.setItem(targetKey, inputText);
 }
 
 function OpenLatest()
 {
-    let ver = document.getElementById('updateversion').dataset.version;
+    const ver = $('#updateversion').dataset.version;
 
     if(ver === "None")
     {
@@ -63,49 +59,40 @@ function OpenLatest()
 
 function ToggleLanguage()
 {
-    var shown = document.getElementById('dropdown-menu2').style.visibility;
+    $('#dropdown-menu2').toggle();
+}
 
-    shown = (shown === "hidden") ? "visible" : "hidden";
-
-    document.getElementById('dropdown-menu2').style.visibility = shown;
+function ToggleStyleMode()
+{
+    fetch('/change-style').then(() => location.reload(true))
 }
 
 function ChangeLanguage(elm)
 {
-    // Get the current url
-    let currentUrl = window.location;
-
     window.location = `/change/${elm.id}/0`;
 }
 
 // Filter the select (listbox) by text but prevent it from deleting itself
 // https://stackoverflow.com/a/62896822
 function filter() {
-    var keyword = document.getElementById("search").value;
-    var select = document.getElementById("select");
+    var keyword = $("#search").val();
+    var select = $("#select").children();
 
-    var startsWithSearch = false;
+    const startsWithSearch = keyword.length > 0 && keyword[0] === "=";
 
-    if(keyword.length > 0)
-        if(keyword[0] == "=")
-            startsWithSearch = true;
+    if (!select || select.length < 1) return;
 
-    if (select === null) return;
+    var txt = null;
+    const startsWithCondition = keyword.substring(1);
+    const len = select.length
 
-    for (var i = 0; i < select.length; i++) {
+    for (var i = 0; i < len; i++) {
         
-        var txt = select.options[i].text;
+        txt = $(select[i]).text();
         
-        $(select.options[i]).attr('disabled', 'disabled').hide();
-             
-        if (startsWithSearch)
-        {
-            if(txt.startsWith(keyword.substring(1)))
-            $(select.options[i]).removeAttr('disabled').show();
-        } 
-        else if (txt.includes(keyword)) {
-            $(select.options[i]).removeAttr('disabled').show();
-        } 
+        $(select[i]).attr('disabled', 'disabled').hide();
+            
+        if((startsWithSearch && txt.startsWith(startsWithCondition)) || txt.includes(keyword)) $(select[i]).removeAttr('disabled').show();
     }
 
     // Set a session key to keep track of the input
@@ -115,10 +102,7 @@ function filter() {
 // https://stackoverflow.com/a/45010416
 function removeActive() 
 {
-    $("li").each(function() {
-        $(this).removeClass("is-active");
-    }); 
-    
+    $("li").each(function() { $(this).removeClass("is-active"); }); 
     $("#client_event").addClass("is-hidden");
     $("#game_event").addClass("is-hidden");
     $("#server_event").addClass("is-hidden");
@@ -127,25 +111,25 @@ function removeActive()
 
 function setActive(className)
 {
-    let target = "#" + className
-    $(target).addClass("is-active");
-    $(target).removeClass("is-hidden");
+    //let target = "#" + className
+    $(className).addClass("is-active");
+    $(className).removeClass("is-hidden");
 }
 
 function GotoClient()
 {
     removeActive();
-    setActive("client_event")
+    setActive("#client_event")
 }
 
 function GotoGame()
 {
     removeActive();
-    setActive("game_event")
+    setActive("#game_event")
 }
 
 function GotoServer()
 {
     removeActive();
-    setActive("server_event")
+    setActive("#server_event")
 }

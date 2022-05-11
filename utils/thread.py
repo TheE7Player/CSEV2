@@ -33,8 +33,11 @@ def StartWindowCheck():
       windowOpen = False
       for process in psutil.process_iter():
           if target in process.name():         
-            if argu in process.cmdline():
-              windowOpen = True
+            try:
+              if argu in process.cmdline():
+                windowOpen = True
+            except:
+                windowOpen = False
 
       if not windowOpen:
         print("Cannot find window - assuming its closed. Shuting down server.")
@@ -47,10 +50,14 @@ def StartApplication(FlaskAppFunc):
     uiThread.start()
 
     searchThread = threading.Thread(target=StartWindowCheck)
-    searchThread.daemon = True  
+    searchThread.daemon = True
     searchThread.start()
 
-    searchThread.join()
-
-    print("EXITING")
+    try:
+      searchThread.join()
+    except Exception:
+      print("EXITING")
+    except KeyboardInterrupt:
+      print("Server exited prior to closing")
+    
     os.kill(os.getpid(), signal.SIGTERM)

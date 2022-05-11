@@ -1,0 +1,37 @@
+
+@font-face { font-family: 'Noto Sans', sans-serif !important; src: url('NotoSans-Regular.ttf'); } 
+
+body {
+    padding: 20px !important;
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 20px !important;
+    background: #141414ff !important;
+    color: #eee3c1ff !important;
+}
+
+h1.ignore-css{font-size: 2em;}
+h2.ignore-css{font-size: 1.5em;}
+
+.event{
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.eventNoSupport {color: crimson;}
+.eventSupport {color: greenyellow;}
+
+.shadow {
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px rgba(58, 58, 58, 0.794));
+}
+
+body > div > div:nth-child(3) > div > div > div:nth-child(2) > div.tabs.is-centered > ul > li > a
+{
+   color: #eee3c1ff !important;
+}
+
+body > div > div:nth-child(3) > div > div > div:nth-child(2) > div.tabs.is-centered > ul > li > a:hover {
+  color:white !important;
+  background-color: #b55fd194;
+  backdrop-filter: blur(100px);
+}

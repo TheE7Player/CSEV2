@@ -8,152 +8,144 @@
     <!-- Prevent google translate for translating site -->
     <meta name="google" content="notranslate">
 
-    <link rel="stylesheet" href='/static/style.css' /> 
+    {% if LightMode == True %}
+        <link rel="stylesheet" href='/static/style.css' />
+    {% else %}
+        <link rel="stylesheet" href='/static/dark-mode.css' />
+    {% endif %}
     <link rel="stylesheet" href='/static/bulma.css' />
-    <link defer rel="stylesheet" href="/static/css/all.css" > <!--load all styles -->
+    <link defer rel="stylesheet" href="/static/css/all.css" > <!--load all styles (Awesome Fonts) -->
 
     <script type="text/javascript" src="/static/logic.js"></script>
     <script type="text/javascript" src="/static/jquery.min.js" ></script>
 
     <title>Counter Strike Event Viewer 2</title>
-
-    <!-- 
-
-    Google Fonts: Noto Sans 
-
-    This font is now loaded locally and not externally so even if offline, the styling remains the same.
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-
-    -->
 </head>
-<body onload="FetchSession()">
-    <!-- Tag used to fetch which version -->
-    <a id="updateversion" data-version="{{updateVersion}}"></a>
-    <div>
-        <table style="border-collapse: collapse; width: 100%;" border="0">
-            <tbody>
-                <tr>
-                <td style="width: 15%;">
-                    <h1 class="ignore-css" style="margin: 0px;"><b>CS:EV 2</b></h1>
-                    <h2 class="ignore-css" style="margin-top: 0px;"><i>{{lang['Version']}} {{version}}</i></h2>
-                </td>
-                <td style="width: 49.9526%;padding: 15px;"><input name="search" id="search" class="input is-rounded" onkeyup="filter()" type="text" placeholder="{{lang['SearchPlaceHolder']}}" autocomplete="off"></td>
-                <td style="width: 16.714%;padding: 15px;">
-                    <div class="dropdown is-active">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" onclick="ToggleLanguage();" style="width: 192px;">
-                              <span>{{lang['Title']}}</span>
-                              <span class="icon is-small">
-                                <i class="fas fa-angle-down" aria-hidden="true"></i>
-                              </span>
-                            </button>
-                          </div>
-                          <div class="dropdown-menu" id="dropdown-menu2" role="menu" style="visibility:hidden;">
-                            <div class="dropdown-content" style="background-color: rgba(169, 169, 169, 0.664);">
-                                {% for name in availableLanguages %}         
-                                    {% if not name == lang['Title']%}       
-                                    <div class="dropdown-item" id="{{name.upper()[:3]}}" onclick="ChangeLanguage(this);" >
-                                        <table>
-                                            <td><img src="/static/flag/{{name.lower()[:3]}}.png" width="45" height="45" class="shadow"/></td>
-                                            <td style="padding: 13 0 0 24;"><p class="title is-6">{{name}}</p></td>
-                                        </table>
-                                    </div>
-                                    <hr class="dropdown-divider">
-                                    {% endif %}                       
-                                {% endfor %}</div>
+<body onload="FetchSession()">   
+    <div class="container">
+        <!-- Tag used to fetch which version -->
+        <a id="updateversion" data-version="{{updateVersion}}"></a>
+        <div>
+            <table style="border-collapse: collapse; width: 100%;" border="0">
+                <tbody>
+                    <tr>
+                    <td style="width: 15%;">
+                        <h1 class="ignore-css" style="margin: 0px;"><b>CS:EV 2</b></h1>
+                        <h2 class="ignore-css" style="margin-top: 0px;"><i>{{lang['Version']}} {{version}}</i></h2>
+                    </td>
+                    <td style="width: 49.9526%;padding: 15px;"><input name="search" id="search" class="input is-rounded" onkeyup="filter()" type="text" placeholder="{{lang['SearchPlaceHolder']}}" autocomplete="off"></td>
+                    <td style="width: 16.714%;padding: 15px;">
+                        <div class="dropdown is-active">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" onclick="ToggleLanguage()" style="width: 192px;">
+                                <span>{{lang['Title']}}</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu2" role="menu" style="display: none;">
+                                <div class="dropdown-content" style="background-color: rgb(243 243 243);">
+                                    {% for name in availableLanguages %}         
+                                        {% if not name == lang['Title']%}       
+                                        <div class="dropdown-item" id="{{name.upper()[:3]}}" onclick="ChangeLanguage(this);" style="cursor: hand;">
+                                            <table>
+                                                <td><img src="/static/flag/{{name.lower()[:3]}}.png" width="45" height="45" class="shadow"/></td>
+                                                <td style="padding: 13 0 0 24;"><p class="title is-6">{{name}}</p></td>
+                                            </table>
+                                        </div>
+                                        <hr class="dropdown-divider">
+                                        {% endif %}                       
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!--
-                    <div class="select">
-                         availableLanguages 
-                        <select onchange="location = this.value;">
-                            {% for name in availableLanguages %}
-                            <option value="{{url_for('change', lang=availableLanguages[name], toChange=0)}}" {% if name == lang['Title'] %} selected {% endif %}>{{name}}</option>
+                    </td>
+                    <td>
+                        <div id="toggle-style" onclick="ToggleStyleMode()" style="margin-top: 10px;">
+                        {% if LightMode == True %}
+                            <img src="/static/svgs/toggle_dark.svg" width="48" height="48">
+                        {% else %}
+                            <img src="/static/svgs/toggle_light.svg" width="48" height="48">
+                        {% endif %}
+                        </div>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>     
+        </div>
+
+        {% if askUpdate == True %}
+            <div id="update" class="notification is-warning is-light">
+            <button class="delete" onclick="CloseMessage()"></button>
+            {{lang['UpdateMessageA']}} <strong>{{lang['UpdateMessageB']}}</strong> {{lang['UpdateMessageC']}} <a onclick="OpenLatest()">{{lang['UpdateMessageD']}}</a>.
+        </div>
+        {% endif %}
+
+        <div>
+            <div class="select is-multiple" style="padding: 14px;">
+                <div class="columns">
+                    <div class="column">
+                        <select name="select" id="select" multiple size="8" style="min-height: 529px; min-width: 367px;" onchange="location = this.value;">
+                            {% for item in eventnames %}
+                            <option value="{{ url_for('event', item_name=item) }}" {% if item == eventTitle %} selected {% endif %}>{{item}}</option>
                             {% endfor %}
                         </select>
-                      </div>  -->             
-                </td>
-                </tr>
-            </tbody>
-        </table>     
-    </div>
-
-    {% if askUpdate == True %}
-        <div id="update" class="notification is-warning is-light">
-        <button class="delete" onclick="CloseMessage()"></button>
-        {{lang['UpdateMessageA']}} <strong>{{lang['UpdateMessageB']}}</strong> {{lang['UpdateMessageC']}} <a onclick="OpenLatest()">{{lang['UpdateMessageD']}}</a>.
-      </div>
-    {% endif %}
-
-    <div>
-        <div class="select is-multiple" style="padding: 14px;">
-            <div class="columns">
-                <div class="column">
-                    <select name="select" id="select" multiple size="8" style="min-height: 529px; min-width: 367px;" onchange="location = this.value;">
-                        {% for item in eventnames %}
-                        <option value="{{ url_for('event', item_name=item) }}" {% if item == eventTitle %} selected {% endif %}>{{item}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="column" style="min-width: 820px;">
-                    <h1><b>{{eventTitle}}</b></h1>
-                    <table style="border-collapse: collapse; width: 100%;" border="0">
-                        <tbody>
-                            <td class="event {% if supportsClient == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Client']}}</td>
-                            <td class="event {% if supportsGame == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Game']}}</td>
-                            <td class="event {% if supportsServer == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Server']}}</td>
-                        </tbody>                       
-                    </table>
-                    <div class="tabs is-centered">
-                        <!-- class="is-active" -->
-                          <ul>
-                            <li><a onclick="GotoClient()">{{lang['Client']}}</a></li>
-                            <li><a onclick="GotoGame()">{{lang['Game']}}</a></li>
-                            <li><a onclick="GotoServer()">{{lang['Server']}}</a></li>
-                          </ul>
                     </div>
-                    <div class="container">
-                        <div id="default">
-                          <!-- Default Container -->
-                            {% if eventTitle == "No Event Selected" %}
-                                <p>{{lang['EventSubText']}}</p>
-                            {% else %}
-                                <h2>{{lang['InformationHeader']}}</h2>
-                                <h3>{{lang['PlayerHint']}}: {{lang['HintYes'] if supportsClient == True else lang['HintNo']}}</h3>
-                                <h3>{{lang['GameHint']}}: {{lang['HintYes'] if supportsGame == True else lang['HintNo']}}</h3>
-                                <h3>{{lang['ServerHint']}}: {{lang['HintYes'] if supportsServer == True else lang['HintNo']}}</h3>
-                            {% endif %}
+
+                    <div class="column" style="min-width: 820px;">
+                        <h1><b>{{eventTitle}}</b></h1>
+                        <table style="border-collapse: collapse; width: 100%;" border="0">
+                            <tbody>
+                                <td class="event {% if supportsClient == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Client']}}</td>
+                                <td class="event {% if supportsGame == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Game']}}</td>
+                                <td class="event {% if supportsServer == True %} eventSupport {% else %} eventNoSupport {% endif %}">{{lang['Server']}}</td>
+                            </tbody>                       
+                        </table>
+                        <div class="tabs is-centered">
+                            <ul>
+                                <li><a onclick="GotoClient()">{{lang['Client']}}</a></li>
+                                <li><a onclick="GotoGame()">{{lang['Game']}}</a></li>
+                                <li><a onclick="GotoServer()">{{lang['Server']}}</a></li>
+                            </ul>
                         </div>
-                        <div class="is-hidden" id="client_event">
-                            {% if supportsClient == False %}
-                                <h2>{{lang['NotClient']}}</h2>
-                            {% else %}
-                                {{table['c']}}
-                            {% endif %}
+                        <div class="container">
+                            <div id="default">
+                                {% if eventTitle == "No Event Selected" %}
+                                    <p>{{lang['EventSubText']}}</p>
+                                {% else %}
+                                    <h2>{{lang['InformationHeader']}}</h2>
+                                    <h3>{{lang['PlayerHint']}}: {{lang['HintYes'] if supportsClient == True else lang['HintNo']}}</h3>
+                                    <h3>{{lang['GameHint']}}: {{lang['HintYes'] if supportsGame == True else lang['HintNo']}}</h3>
+                                    <h3>{{lang['ServerHint']}}: {{lang['HintYes'] if supportsServer == True else lang['HintNo']}}</h3>
+                                {% endif %}
+                            </div>
+                            <div class="is-hidden" id="client_event">
+                                {% if supportsClient == False %}
+                                    <h2>{{lang['NotClient']}}</h2>
+                                {% else %}
+                                    {{table['c']}}
+                                {% endif %}
+                            </div>
+                            <div class="is-hidden" id="game_event">
+                                {% if supportsGame == False %}
+                                    <h2>{{lang['NotGame']}}</h2>
+                                {% else %}
+                                    {{table['g']}}
+                                {% endif %}
+                            </div>
+                            <div class="is-hidden" id="server_event">
+                                {% if supportsServer == False %}
+                                    <h2>{{lang['NotServer']}}</h2>
+                                {% else %}
+                                    {{table['s']}}
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="is-hidden" id="game_event">
-                            {% if supportsGame == False %}
-                                <h2>{{lang['NotGame']}}</h2>
-                            {% else %}
-                                {{table['g']}}
-                            {% endif %}
-                        </div>
-                        <div class="is-hidden" id="server_event">
-                            {% if supportsServer == False %}
-                                <h2>{{lang['NotServer']}}</h2>
-                            {% else %}
-                                {{table['s']}}
-                            {% endif %}
-                        </div>
-                      </div>
-                </div>
+                    </div>
+                </div>   
             </div>
-            
-          </div>
+        </div>
     </div>
 </body>
 </html>

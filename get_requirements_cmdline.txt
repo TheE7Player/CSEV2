@@ -1,0 +1,3 @@
+‪G:\Python37\Scripts\pipdeptree.exe G:\PythonProjects\CSEV2\main.py
+
+pip install flask-socketio <<

@@ -2,6 +2,7 @@
 
 # https://stackoverflow.com/a/60441931
 
+from pickle import FALSE
 from flask import Flask, render_template
 from flaskwebgui import FlaskUI #get the FlaskUI class
 import utils.config as cfg
@@ -60,19 +61,26 @@ def event(item_name):
   version=cfg.VERSION, lang=cfg.language, availableLanguages=cfg.selectLanguage,
   eventnames=cfg.eventNames, 
   eventTitle=item_name,
-  supportsGame=mod, supportsClient=cli, supportsServer=svr, table=tableResponce)
+  supportsGame=mod, supportsClient=cli, supportsServer=svr, table=tableResponce,
+  LightMode = cfg.LIGHT_MODE)
 
 @app.route("/")
 def index():
   if not cfg.APPLICATION_LOADED:
     cfg.APPLICATION_LOADED = True
-
+    
   return render_template('index.html', 
   version=cfg.VERSION, lang=cfg.language, availableLanguages=cfg.selectLanguage,
   eventnames=cfg.eventNames, 
   eventTitle=cfg.language['NoEvent'],
   supportsGame=False, supportsClient=False, supportsServer=False,
-  askUpdate=cfg.needsUpdating, updateVersion=cfg.LATESTVERSION)
+  askUpdate=cfg.needsUpdating, updateVersion=cfg.LATESTVERSION,
+  LightMode = cfg.LIGHT_MODE)
+
+@app.route("/change-style")
+def toggle_style():
+  result = cfg.ToggleStyle()
+  return '<p>Toggle Style Changed</p>' if result == True else '<p>Toggle Style Change Has Failed</p>'
 
 @app.route("/change/<string:lang>/<int:toChange>/")
 def change(lang, toChange):
@@ -95,7 +103,8 @@ def change(lang, toChange):
     eventnames=cfg.eventNames, 
     eventTitle=cfg.language['NoEvent'],
     supportsGame=False, supportsClient=False, supportsServer=False,
-    askUpdate=cfg.needsUpdating, updateVersion=cfg.LATESTVERSION)
+    askUpdate=cfg.needsUpdating, updateVersion=cfg.LATESTVERSION,
+    LightMode = cfg.LIGHT_MODE)
 
   if l.IfValidSupport(lang):
     returnLanguage = l.GetLanguage(lang)

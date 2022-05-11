@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 172 172" width="172" height="172" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+    <path d="M0,172v-172h172v172z" fill="none"/>
+    <g fill="#ecf0f1">
+      <path d="M 121.833 121.833 C 112.058 121.833 59.942 121.833 50.167 121.833 C 30.379 121.833 14.333 105.787 14.333 86 C 14.333 66.213 30.38 50.167 50.167 50.167 C 59.942 50.167 112.058 50.167 121.833 50.167 C 141.621 50.167 157.667 66.213 157.667 86 C 157.667 105.787 141.62 121.833 121.833 121.833 L 121.833 121.833 Z M 121.833 64.5 C 109.958 64.5 100.333 74.125 100.333 86 C 100.333 97.875 109.958 107.5 121.833 107.5 C 133.709 107.5 143.333 97.875 143.333 86 C 143.333 74.125 133.709 64.5 121.833 64.5 L 121.833 64.5 Z" transform="matrix(-1, 0, 0, -1, 172.000015, 172)" style="fill: rgb(70, 77, 78);"/>
+    </g>
+  </g>
+</svg>

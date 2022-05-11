@@ -91,17 +91,3 @@ def get_reg(name):
             return value
         except WindowsError:
             return None
-
-"""
-TEST CODE - WILL BE REMOVED AT SOME POINT
-
-set_reg("LOADED", True)
-set_reg("COOL", False)
-set_reg("VERSION", 40)
-
-v1 = get_reg("LOADED")
-v2 = get_reg("COOL")
-v3 = get_reg("VERSION")
-
-print(v1,v2,v3)
-"""

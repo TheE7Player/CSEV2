@@ -7,13 +7,35 @@ from .reg import get_reg, set_reg
 import requests
 
 # Constant variables (In Uppercaps)
-VERSION = '0.6.1'
+VERSION = '0.6.2'
 APPLICATION_LOADED = False
 WIDTH = 1280
 HEIGHT = 720
 LATESTVERSION = None
-
 FORCEUPDATE = False
+
+LIGHT_MODE = get_reg("LightMode")
+
+# Assign if not set already
+if LIGHT_MODE == None:
+  print("[utils/config.py] DIDN'T DETECT DESIRED COLOUR SCHEME, SETTING LIGHT/FADE BY DEFAULT")
+  set_reg("LightMode", "1")
+  LIGHT_MODE = True
+else:
+  # Reasign to desired format (Boolean)
+  LIGHT_MODE = True if LIGHT_MODE == '1' else False
+
+print("LIGHT MODE", LIGHT_MODE)
+
+def ToggleStyle():
+  global LIGHT_MODE
+  new_value = '0' if LIGHT_MODE == True else '1'
+  try:
+    set_reg("LightMode", new_value)
+    LIGHT_MODE = False if new_value == '0' else True
+    return True
+  except:
+    return False
 
 events = []
 eventNames = []
